@@ -1,0 +1,20 @@
+{
+  "name": "protodefjs",
+  "version": "1.0.0",
+  "description": "Implemented in js (For faster development time)\r - pds.peg - peg grammar for parser\r - parser.js - compiled .peg",
+  "main": "parser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@meteor-it/argv": "^0.3.3",
+    "@meteor-it/fs": "^0.3.4",
+    "@meteor-it/logger": "^2.2.11",
+    "tsc": "^1.20150623.0",
+    "typescript": "^2.6.2"
+  }
+}

@@ -1,0 +1,72 @@
+root
+	= __ statements:statement* 
+    {return {type:'block',statements}}
+statement
+	= attributes:statementAttr* items:valueChain semicolon 
+    {return {type:'statement',attributes,items}}
+statementAttr
+	= '@' name:baseIdent val:valueChain __ 
+    {return {type:'attribute',name,val}}
+valueChain 
+	= d:value oth:((hashrocket __ k:valueChain {return k})*) 
+    {return [d,...oth]}
+value
+	= s:string 
+    {return s}
+    / i:item 
+    {return i}
+item
+	= identifier:baseIdent args:itemArgs? block:itemBlock? 
+    {return {type:'item',identifier,args,block}}
+itemArgs
+	= parenOpen args:itemList parenClose __ 
+    {return args}
+itemList
+	= d:itemArg oth:((',' __ k:itemArg {return k})*) 
+    {return [d,...oth]}
+itemArg
+	= tag:(t:baseIdent ':' {return t})? __ value:value __ 
+    {return {type:'itemArg',tag,value}}
+itemBlock
+	= blockOpen statements:statement* blockClose __ 
+    {return {type:'block',statements}}
+    
+string "string"
+	= '"' chars:stringChar* '"' 
+    {return {type:'string',value:chars.join('')}}
+stringChar
+	= c:[^"]+ 
+    {return c.join('')}
+identifier "namespaced identifier"
+	= i:innerIdentifier 
+    {return i}
+innerIdentifier
+	= ("::")? ident:baseIdent inner:innerIdentifier 
+    {return {type:'identifier',ident:[ident,inner.ident].filter(e=>e!=undefined).join('::')}}
+    / __ 
+baseIdent "identifier"
+    = ("::")? chars:$([0-9a-zA-Z_]+) __ 
+    {return chars}
+hashrocket 
+	= "=>" __
+parenOpen 
+	= "(" __
+parenClose 
+	= ")" __
+blockOpen 
+	= "{" __
+blockClose 
+	= "}" __
+comma 
+	= "," __
+semicolon "semicolon"
+	= ";" __
+__ "whitespace"
+	= (whitespace / eol)*
+whitespace
+    = [ \t]
+eolChar
+    = [\n\r]
+eol
+    = "\n"
+    / "\r\n"
