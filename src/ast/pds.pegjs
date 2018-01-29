@@ -1,5 +1,5 @@
 {
-    const {Block,Statement,Item,ItemArg,Ident} = require('./ast.js');
+    const {Block, Statement, Item, ItemArg, Ident, Value, Attribute} = require('./ast.js');
     const {default:Logger} = require('@meteor-it/logger');
     const parseLogger = new Logger('parser');
 }
@@ -14,7 +14,7 @@ statement
     {return new Statement(attributes,items)}
 statementAttr
 	= '@' name:baseIdent val:valueChain __
-    {return [name,val]}
+    {return new Attribute(name,val)}
 
 // Value
 valueChain 
@@ -24,9 +24,9 @@ valueChain
     {return [v]}
 value
 	= s:string 
-    {return s}
+    {return new Value(true, s)}
     / i:item 
-    {return i}
+    {return new Value(false, i)}
 
 // Item
 item
