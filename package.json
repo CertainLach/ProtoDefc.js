@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc -w",
-    "start": "node index.js"
+    "start": "node ./src/index.js compile --input ./test/test.pds --output ./test/dist --target java",
+    "peg": "pegjs ./src/ast/pds.pegjs"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,8 @@
     "@meteor-it/argv": "^0.3.3",
     "@meteor-it/fs": "^0.3.4",
     "@meteor-it/logger": "^2.2.11",
+    "@types/node": "^9.4.0",
+    "pegjs": "^0.10.0",
     "tsc": "^1.20150623.0",
     "typescript": "^2.6.2"
   }

@@ -1,0 +1,58 @@
+@type integer("u8") def_native("u8");
+@type integer("u64") def_native("u64");
+
+@doc "Native types without type annotations are opaque to the compiler."
+def_native("f64");
+
+@doc "A native type which takes a single integer argument."
+@type binary("utf8")
+def_native("sized_string") {
+    argument("size", stage: "read") => integer("usize");
+};
+
+@doc "A composite data structure which contains 3 fields."
+def("position") => container {
+    field("x") => ::f64;
+    field("y") => ::f64;
+    field("z") => ::f64;
+};
+
+def("entity_data") => container {
+    field("entity_id") => ::u64;
+    
+    @doc "Uses the type defined above."
+    field("position") => ::position;
+    
+    virtual_field("entity_type_tag", value: "entity_type/@tag") => ::u8;
+    
+    field("entity_type") => union("entity_type", tag: "../entity_type_tag") {
+        variant("player", match: "0") => container {};
+        variant("zombie", match: "1") => container {};
+    };
+};
+
+def("u8_string") => container(virtual: "true") {
+    virtual_field("size", value: "string/@size") => u8;
+    field("string") => sized_string(size: "../size");
+};
+
+@doc "Another example of a virtual container."
+def("packet") => container(virtual: "true") {
+    virtual_field("tag", value: "data/@tag") => ::u8;
+    field("data") => union("packet_variant", tag: "../tag") {
+        variant("handshake", match: "0") => container {
+            field("nonce") => ::u64;
+        };
+        variant("ping", match: "1") => container {
+            field("nonce") => ::u64;
+            field("timestamp") => ::u64;
+        };
+        variant("spawn_entity", match: "2") => ::entity_data;
+    };
+};
+
+namespace("test") {
+
+  def("test") => container {};
+
+};

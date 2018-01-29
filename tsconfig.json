@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "watch": true
+        "target": "es6",
+        "watch": true,
+        "module": "commonjs"
     },
     "compileOnSave": true
 }
