@@ -1,8 +1,8 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "watch": true,
-        "module": "commonjs"
-    },
-    "compileOnSave": true
+  "compilerOptions": {
+    "target": "es6",
+    "watch": true,
+    "module": "commonjs"
+  },
+  "compileOnSave": true
 }

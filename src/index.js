@@ -15,12 +15,27 @@ const node_1 = require("@meteor-it/logger/receivers/node");
 const pds_js_1 = require("./ast/pds.js");
 logger_1.default.addReceiver(new node_1.default());
 class JavaBackend {
+    getExt() {
+        return 'java';
+    }
     compile(data) {
         throw new Error("Method not implemented.");
     }
 }
+/**
+ * Usable for code formatting
+ */
+class PDSBackend {
+    getExt() {
+        return 'pds';
+    }
+    compile(data) {
+        return data.toString();
+    }
+}
 const backends = {
-    java: new JavaBackend()
+    java: new JavaBackend(),
+    pds: new PDSBackend()
 };
 const parser = new argv_1.default('protodefc');
 const logger = parser.logger;
@@ -50,6 +65,9 @@ parser.command('compile').option('input', {
         logger.error(e.stack);
         return;
     }
-    console.log(JSON.stringify(parsed, null, 4));
+    logger.log('Compiling...');
+    const compiled = backends[target].compile(parsed);
+    logger.log(`Compiled, output size: ${compiled.length.toString().green} bytes. Writing to ${output}.${backends[target].getExt()}`);
+    yield fs_1.writeFile(`${output}.${backends[target].getExt()}`, compiled);
 }));
 parser.parse(process.argv.slice(2));

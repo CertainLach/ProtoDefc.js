@@ -1,4 +1,4 @@
-import {Attribute, Block, Item, Statement} from "../ast/ast";
+import {Attribute, Block, Statement} from "../ast/ast";
 
 function itemsToCompilationUnit(attributesByName: Attribute[]) {
     throw new Error('unimplemented');
@@ -9,20 +9,20 @@ function typeToCompilationUnit(statement: Statement) {
 }
 
 export function blockToCompilationUnit(root: Block) {
-    for(let statement of root.statements){
+    for (let statement of root.statements) {
         let headValue = statement.items[0];
-        if(!headValue.isItem())
+        if (!headValue.isItem())
             throw new Error('statement in root must start with item!');
         let headItem = headValue.asItem();
         let headItemName = headItem.name.toString();
-        let docString = statement.getAttributesByName('doc').map(attribute=>{
-            if(attribute.value.length!==1)
+        let docString = statement.getAttributesByName('doc').map(attribute => {
+            if (attribute.value.length !== 1)
                 throw new Error('doc attribute must have only one value!');
-            if(!attribute.value[0].isString())
+            if (!attribute.value[0].isString())
                 throw new Error('doc attribyte must be string!');
             return attribute.value[0].asString();
         }).join('\n');
-        switch(headItemName){
+        switch (headItemName) {
             case 'def': {
                 if (headItem.args.length !== 1)
                     throw new Error('def must receive only one argument!');

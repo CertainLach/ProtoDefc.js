@@ -63,8 +63,8 @@ identifier "namespaced identifier"
 	= i:innerIdentifier 
     {return i}
 innerIdentifier
-    = "::" list:identList {new Ident(true, list)}
-    / list:identList {new Ident(false, list)}
+    = "::" list:identList {return new Ident(true, list)}
+    / list:identList {return new Ident(false, list)}
 /*REC*/
 identList
     = a:baseIdent "::" b:identList
