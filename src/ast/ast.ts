@@ -183,7 +183,7 @@ export class Attribute {
         this.value = value;
     }
     toString(){
-        return `@${this.name} ${this.value.map(v=>v.toString()).join('=>')}`
+        return `@${this.name} ${this.value.map(v=>v.toString())}`
     }
 }
 
@@ -201,7 +201,7 @@ export class Statement {
     }
 
     toString(){
-        return `${this.attributes.map(attr=>attr.toString()).join('\n')}\n${this.items.map(item=>item.toString()).join(' ')};`
+        return `${this.attributes.map(attr=>attr.toString()).join('\n')}\n${this.items.map(item=>item.toString()).join(' => ')};`
     }
 }
 

@@ -149,7 +149,7 @@ class Attribute {
         this.value = value;
     }
     toString() {
-        return `@${this.name} ${this.value.map(v => v.toString()).join('=>')}`;
+        return `@${this.name} ${this.value.map(v => v.toString())}`;
     }
 }
 exports.Attribute = Attribute;
@@ -162,7 +162,7 @@ class Statement {
         return this.attributes.filter(attribute => attribute[0] === name).map(attribute => attribute[1]);
     }
     toString() {
-        return `${this.attributes.map(attr => attr.toString()).join('\n')}\n${this.items.map(item => item.toString()).join(' ')};`;
+        return `${this.attributes.map(attr => attr.toString()).join('\n')}\n${this.items.map(item => item.toString()).join(' => ')};`;
     }
 }
 exports.Statement = Statement;
