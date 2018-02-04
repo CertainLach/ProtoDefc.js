@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "watch": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    "outDir": "dist/"
   },
   "compileOnSave": true
 }
